@@ -61,25 +61,9 @@ app.get('/setup', function(req, res){
 // =====================
 // all routes -----------
 
+
 var apiRoutes = express.Router();
-//Autheticate Route:------------
 
-//Verify Token Route:-----------
-
-//api message route: -----------
-apiRoutes.get('/', function(req, res) {
-	res.json({ message: 'Restful API'});
-});
-
-//Return all users: --------
-apiRoutes.get('/users', function(req, res) {
-	User.find({}, function(err, users) {
-		res.json(users);
-	});
-});
-
-//Prefix routes with /api ----
-app.use('/api', apiRoutes);
 
 // Authenticate Routes
 // =====================
@@ -123,6 +107,55 @@ apiRoutes.post('/authenticate', function(req, res) {
 		}
 	});
 });
+
+
+// =====================
+// Route middleware to protect api routes except /authenticate route
+// =====================
+
+apiRoutes.use(function(req, res, next) {
+	//check for tokens
+	var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+	//decoding the token
+	if (token) {
+		//verification of secret
+
+		jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+			if (err) {
+				return res.json({ success: false, message: 'Failed to authenticate token'});
+			} else {
+				//if all is well, secret is nice, token is ready... save for use to other routes
+				req.decoded = decoded;
+				next();
+
+
+			}
+		});
+	} else {
+		//incase no token available
+		return res.status(403).send({
+			success: false,
+			message: 'No token provided'
+		});
+	}
+});
+
+//api message route: -----------
+apiRoutes.get('/', function(req, res) {
+	res.json({ message: 'Restful API'});
+});
+
+//Return all users: --------
+apiRoutes.get('/users', function(req, res) {
+	User.find({}, function(err, users) {
+		res.json(users);
+	});
+});
+
+
+//Prefix routes with /api ----
+app.use('/api', apiRoutes);
 
 
 // =====================
