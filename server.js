@@ -81,6 +81,50 @@ apiRoutes.get('/users', function(req, res) {
 //Prefix routes with /api ----
 app.use('/api', apiRoutes);
 
+// Authenticate Routes
+// =====================
+// POST routes ----------
+
+apiRoutes.post('/authenticate', function(req, res) {
+
+	//find a user
+	User.findOne({
+		name: req.body.name
+	}, function(err, user){
+		if (err) throw err;
+
+		if (!user) {
+			res.json({ success: false, message: 'Authentication failed. USER NOT FOUND'})
+		} else if (user) {
+			if (user.password != req.body.password ) {
+				res.json({ success: false, message: 'Authentication failed!'});
+			}
+
+			else {
+				//user is found
+				//create token
+
+				const payload = {
+					admin: user.admin
+				};
+
+				var token = jwt.sign(payload, app.get('superSecret'), {
+					expiresIn: '24h' // 24 hour expiry
+				});
+
+				//get info and token as json
+
+				res.json({
+					success: true,
+					message: 'Tokenized user!',
+					token: token
+				});
+			}
+		}
+	});
+});
+
+
 // =====================
 // start server
 // =====================
