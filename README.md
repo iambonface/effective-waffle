@@ -1,15 +1,13 @@
 <h1 align="center">
 <br>
-Tokenizr
+Node-Tokenizr
 <br>
 </h1>
 
 <h4 align="center">Authenticating a Node.js API with JSON Web Tokens!</h4>
 
 <p align="center">
-<a href="http://www.tabyetu.com">
   <img src="https://img.shields.io/badge/under-construction-blue.svg" alt="label">
-</a>
 </p>
 
 ## GET Request
