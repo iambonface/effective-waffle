@@ -15,11 +15,16 @@ Node-Tokenizr
 <img src = "https://user-images.githubusercontent.com/16631356/31318076-dbdb8114-ac54-11e7-95bd-8e96c011bcfc.png" alt = "GET USER" width = "800" height = "auto">
 </p>
 
-## POST request
+## POST Request
 <p align="center">
 <img src = "https://user-images.githubusercontent.com/16631356/31318082-ecac95b4-ac54-11e7-951b-dd8c7f6c0f4c.png" alt = "POST USER AUTH" width = "800" height = "auto">
 </p>
 
-## License
+## PROTECTED Route
+<p align="center">
+<img src = "https://user-images.githubusercontent.com/16631356/31318339-463ba990-ac59-11e7-82f2-f2e79eb01d63.png" alt = "PROTECTED ROUTE" width = "800" height = "auto">
+</p>
 
+
+## License
 [MIT](LICENSE)
