@@ -37,15 +37,49 @@ app.use(morgan('dev'));
 // =====================
 // routes
 // =====================
-// vasic route ----------
+// basic route ----------
 app.get('/', function(req, res) {
 	res.send('Hello The API is at http://localhost:' + port + '/api');
 });
 
+app.get('/setup', function(req, res){
+
+	var john = new User({
+		name: 'John Doe',
+		password: 'johndoe',
+		admin: true
+	});
+
+	john.save(function(err){
+		if (err) throw err;
+
+		console.log('User saved');
+		res.json({ success: true });
+	});
+});
 // API ROUTES
 // =====================
-// all route -----------
+// all routes -----------
 
+var apiRoutes = express.Router();
+//Autheticate Route:------------
+
+//Verify Token Route:-----------
+
+//api message route: -----------
+apiRoutes.get('/', function(req, res) {
+	res.json({ message: 'Restful API'});
+});
+
+//Return all users: --------
+apiRoutes.get('/users', function(req, res) {
+	User.find({}, function(err, users) {
+		res.json(users);
+	});
+});
+
+//Prefix routes with /api ----
+app.use('/api', apiRoutes);
 
 // =====================
 // start server
